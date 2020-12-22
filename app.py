@@ -1,6 +1,7 @@
 import os
 from flask import Flask, jsonify, request
-from models import connect_db
+from models.models import connect_db
+from routes.user import user_api
 from flask_debugtoolbar import DebugToolbarExtension
 
 # *****************************
@@ -18,22 +19,13 @@ toolbar = DebugToolbarExtension(app)
 
 connect_db(app)
 
+# Register blueprints from routes folder
+app.register_blueprint(user_api)
 
-# *****************************
-# ROUTES
-# *****************************
+
 @app.route('/test')
 def hello_world():
     return jsonify({"message": "hello world"})
-
-
-# AUTH ROUTES:
-@app.route('/login')
-def login():
-    """ Handles a request to log in. Authenticates user name and password
-    and returns a token. """
-    req = request.json
-    return jsonify({"request": request.body})
 
 # # IF RUNNING ON PYCHARM:
 # if __name__ == '__main__':
