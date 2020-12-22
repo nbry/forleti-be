@@ -1,6 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import IntegrityError
 from flask_bcrypt import Bcrypt
+from datetime import datetime
 from flask_jwt import JWT, jwt_required, current_identity
 from werkzeug.security import safe_str_cmp
 
@@ -8,18 +9,13 @@ bcrypt = Bcrypt()
 db = SQLAlchemy()
 
 
-def connect_db(app):
-    """ Connect this database to provided Flask app"""
-    db.app = app
-    db.init_app(app)
-
-
 class User(db.Model):
     __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.Text, nullable=False, unique=True)
-    email = db.Column(db.Text, nullable=False, unique=True, default=None)
+    email = db.Column(db.Text, nullable=False, unique=True)
+    created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
     @classmethod
     def signup(cls, username, password, email):
@@ -57,3 +53,6 @@ class User(db.Model):
         if User.query.filter_by(username=username).first() \
                 or User.query.filter_by(email=email).first():
             return {"message": "Username/Email already taken!"}
+
+    def __repr__(self):
+        return '<User %r>' % self.username
