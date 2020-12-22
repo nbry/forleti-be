@@ -1,6 +1,6 @@
 import os
 from flask import Flask, jsonify, request
-from models.models import connect_db
+from flask_sqlalchemy import SQLAlchemy
 from routes.user import user_api
 from flask_debugtoolbar import DebugToolbarExtension
 
@@ -17,7 +17,10 @@ app.config['SECRET_KEY'] = os.environ.get(
     'SECRET_KEY', "EIJALWIEJAEFIJ320F23F8SEF209238FDI")
 toolbar = DebugToolbarExtension(app)
 
-connect_db(app)
+# Connect Flask app to database
+db = SQLAlchemy()
+db.app = app
+db.init_app(app)
 
 # Register blueprints from routes folder
 app.register_blueprint(user_api)
