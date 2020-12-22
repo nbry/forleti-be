@@ -27,7 +27,7 @@ class User(db.Model):
         Ensure unique username and email.
         For now, return a message. """
         hashed_pass = cls.hash_pass(password)
-        new_user = cls(username=username, password=hashed_utf8, email=email)
+        new_user = cls(username=username, password=hashed_pass, email=email)
         db.session.add(new_user)
 
         try:
@@ -35,9 +35,7 @@ class User(db.Model):
             return {"message": f"Account for {username} successfully created!"}
         except IntegrityError:
             db.session.rollback()
-            if User.query.filter_by(username=username).first() \
-                    or User.query.filter_by(email=email).first():
-                return {"message": "Username/Email already taken!"}
+            return cls.check_for_duplicate_acct(username, email)
 
     @classmethod
     def hash_pass(cls, pwd):
@@ -52,3 +50,10 @@ class User(db.Model):
         user = User.query.filter_by(username=username).first()
 
         return user and bcrypt.check_password_hash(user.password, password)
+
+    @classmethod
+    def check_for_duplicate_acct(cls, username, email):
+        """ Check if account with username OR email exists """
+        if User.query.filter_by(username=username).first() \
+                or User.query.filter_by(email=email).first():
+            return {"message": "Username/Email already taken!"}
