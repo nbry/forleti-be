@@ -13,6 +13,7 @@ filelock==3.0.12
 Flask==1.1.2
 Flask-Bcrypt==0.7.1
 Flask-DebugToolbar==0.11.0
+Flask-JWT==0.3.2
 Flask-SQLAlchemy==2.4.4
 Flask-WTF==0.14.3
 idna==2.10
@@ -33,6 +34,7 @@ ptyprocess==0.6.0
 pycosat==0.6.3
 pycparser==2.20
 Pygments==2.7.3
+PyJWT==1.4.2
 requests==2.24.0
 ruamel.yaml==0.16.12
 ruamel.yaml.clib==0.2.2

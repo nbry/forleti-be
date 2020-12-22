@@ -1,5 +1,5 @@
 import os
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from models import connect_db
 from flask_debugtoolbar import DebugToolbarExtension
 
@@ -27,5 +27,14 @@ def hello_world():
     return jsonify({"message": "hello world"})
 
 
-if __name__ == '__main__':
-    app.run()
+# AUTH ROUTES:
+@app.route('/login')
+def login():
+    """ Handles a request to log in. Authenticates user name and password
+    and returns a token. """
+    req = request.json
+    return jsonify({"request": request.body})
+
+# # IF RUNNING ON PYCHARM:
+# if __name__ == '__main__':
+#     app.run()
