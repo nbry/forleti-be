@@ -1,15 +1,20 @@
 import os
-from flask import Flask, jsonify, request
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, jsonify
+from connect_models import connect_db
 from routes.user import user_api
 from flask_debugtoolbar import DebugToolbarExtension
+
+app = Flask(__name__)
 
 # *****************************
 # APP CONFIGURATION
 # *****************************
-app = Flask(__name__)
+
+# Connect to Postgres. For development, change your database name here:
 app.config['SQLALCHEMY_DATABASE_URI'] = (
-    os.environ.get('DATABASE_URL', 'postgres:///nathan'))
+    os.environ.get('DATABASE_URL', 'postgres:///forleti_db'))
+
+# Flask/SQLAlchemy debugging settings
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
@@ -18,9 +23,7 @@ app.config['SECRET_KEY'] = os.environ.get(
 toolbar = DebugToolbarExtension(app)
 
 # Connect Flask app to database
-db = SQLAlchemy()
-db.app = app
-db.init_app(app)
+connect_db(app)
 
 # Register blueprints from routes folder
 app.register_blueprint(user_api)

@@ -1,12 +1,9 @@
-from flask_sqlalchemy import SQLAlchemy
+from connect_models import db
 from sqlalchemy.exc import IntegrityError
 from flask_bcrypt import Bcrypt
 from datetime import datetime
-from flask_jwt import JWT, jwt_required, current_identity
-from werkzeug.security import safe_str_cmp
 
 bcrypt = Bcrypt()
-db = SQLAlchemy()
 
 
 class User(db.Model):
