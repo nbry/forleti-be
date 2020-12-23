@@ -18,7 +18,8 @@ class User(db.Model):
     def signup(cls, username, password, email):
         """ Register user for an account w/hashed password.
         Ensure unique username and email.
-        For now, return a message. """
+        Return a message. """
+
         hashed_pass = cls.hash_pass(password)
         new_user = cls(username=username, password=hashed_pass, email=email)
         db.session.add(new_user)
@@ -33,23 +34,37 @@ class User(db.Model):
     @classmethod
     def hash_pass(cls, pwd):
         """ Hash a new password """
+
         hashed = bcrypt.generate_password_hash(pwd)
         hashed_utf8 = hashed.decode("utf8")
         return hashed_utf8
 
     @classmethod
     def authenticate(cls, username, password):
-        """ Ensure user exists. Check for correct password. Return boolean."""
-        user = User.query.filter_by(username=username).first()
+        """ Ensure user exists. Check for correct password. Return a message."""
 
-        return user and bcrypt.check_password_hash(user.password, password)
+        user = User.query.filter_by(username=username).first()
+        if user and bcrypt.check_password_hash(user.password, password):
+            message = {
+                "message": "Log in successful!",
+                "token": "TOKEN"
+            }
+            return message
+        else:
+            message = {
+                "message": "Wrong credentials"
+            }
+            return message
 
     @classmethod
     def check_for_duplicate_acct(cls, username, email):
         """ Check if account with username OR email exists """
+
         if User.query.filter_by(username=username).first() \
                 or User.query.filter_by(email=email).first():
             return {"message": "Username/Email already taken!"}
+        else:
+            return {"message": "Unknown Error"}
 
     def __repr__(self):
         return '<User %r>' % self.username
