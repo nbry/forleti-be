@@ -66,13 +66,13 @@ class User(db.Model):
         return cls.query.filter_by(email=email).one_or_none()
 
     @classmethod
-    def identify(cls, id):
+    def identify(cls, user_id: int):
         """
         REQUIRED METHOD BY FLASK PRAETORIAN:
         Returns a user instance if there is one that matches id
         or None if there is not.
         """
-        return cls.query.get(id)
+        return cls.query.get(user_id)
 
     # *****************************
     # API-related methods:
