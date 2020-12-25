@@ -1,8 +1,10 @@
 import os
 from flask import Flask, jsonify
-from connect_models import connect_db
-from routes.user import user_api
 from flask_debugtoolbar import DebugToolbarExtension
+from connect_models import connect_db
+from models.user import User
+from routes.user import user_api
+
 
 app = Flask(__name__)
 
@@ -27,7 +29,7 @@ app.config["JWT_ACCESS_LIFESPAN"] = {"hours": 24}
 app.config["JWT_REFRESH_LIFESPAN"] = {"days": 30}
 
 # Connect Flask app to database
-connect_db(app)
+connect_db(app, User)
 
 # Register blueprints from routes folder
 app.register_blueprint(user_api)

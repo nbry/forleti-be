@@ -1,19 +1,14 @@
 from flask_praetorian import Praetorian
 from flask_sqlalchemy import SQLAlchemy
-from models.user import User
 
-# Initializing Flask Praetorian base module
 guard = Praetorian()
-
-# Initilizing Flask SQLAlchemy base module
 db = SQLAlchemy()
 
 
-def connect_db(app):
+def connect_db(app, user):
     """
-    Connect Flask Praetorian to app.
-    Connect database to provided Flask app.
-    """
-    guard.init_app(app, User)
+    Initialize Praetorian with app.
+    Connect database to provided Flask app."""
+    guard.init_app(app, user)
     db.app = app
     db.init_app(app)

@@ -1,9 +1,6 @@
-from connect_models import db, guard
-from sqlalchemy.exc import IntegrityError
-from flask_bcrypt import Bcrypt
 from datetime import datetime
-
-bcrypt = Bcrypt()
+from sqlalchemy.exc import IntegrityError
+from connect_models import db, guard
 
 
 class User(db.Model):
