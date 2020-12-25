@@ -1,4 +1,4 @@
-from connect_models import db
+from connect_models import db, guard
 from sqlalchemy.exc import IntegrityError
 from flask_bcrypt import Bcrypt
 from datetime import datetime

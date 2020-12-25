@@ -22,6 +22,10 @@ app.config['SECRET_KEY'] = os.environ.get(
     'SECRET_KEY', "EIJALWIEJAEFIJ320F23F8SEF209238FDI")
 toolbar = DebugToolbarExtension(app)
 
+# Flask Praetorian JWT settings:
+app.config["JWT_ACCESS_LIFESPAN"] = {"hours": 24}
+app.config["JWT_REFRESH_LIFESPAN"] = {"days": 30}
+
 # Connect Flask app to database
 connect_db(app)
 

@@ -2,7 +2,10 @@ from flask_praetorian import Praetorian
 from flask_sqlalchemy import SQLAlchemy
 from models.user import User
 
+# Initializing Flask Praetorian base module
 guard = Praetorian()
+
+# Initilizing Flask SQLAlchemy base module
 db = SQLAlchemy()
 
 
