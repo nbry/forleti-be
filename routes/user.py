@@ -8,8 +8,12 @@ user_api = Blueprint('user_api', __name__)
 
 @user_api.route('/login', methods=['POST'])
 def login():
-    """ Handles a request to log in. Authenticates user name and password
-    and returns a token. """
+    """
+    Handles a request to log in. Authenticates user name and password
+    and returns a token.
+    """
+
+    import ipdb;ipdb.set_trace()
     req = request.json
     user = guard.authenticate(
         req.get('username', None),
@@ -28,7 +32,9 @@ def login():
 
 @user_api.route('/signup', methods=['POST'])
 def signup():
-    """ Handles a request to sign user up for new account. """
+    """
+    Handles a request to sign user up for new account.
+    """
     req = request.json
     new_user = User.signup(
         req.get('username', None),

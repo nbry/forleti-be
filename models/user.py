@@ -77,10 +77,11 @@ class User(db.Model):
 
     @classmethod
     def signup(cls, username: str, raw_pass: str, email: str):
-        """ Register user for an account w/hashed password.
+        """
+        Register user for an account w/hashed password.
         Ensure unique username and email.
-        Return user. """
-
+        Return user.
+        """
         hashed_pass = guard.hash_password(raw_pass)
         new_user = cls(username=username, hashed_password=hashed_pass, email=email)
         db.session.add(new_user)
