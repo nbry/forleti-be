@@ -84,7 +84,7 @@ class User(db.Model):
         Ensure unique username and email.
         Return user. """
 
-        hashed_pass = cls.hash_pass(raw_pass)
+        hashed_pass = guard.hash_password(raw_pass)
         new_user = cls(username=username, hashed_pass=hashed_pass, email=email)
         db.session.add(new_user)
 
@@ -93,24 +93,6 @@ class User(db.Model):
             return new_user
         except IntegrityError:
             db.session.rollback()
-            return cls.check_for_duplicate_acct(username, email)
-
-    @classmethod
-    def hash_pass(cls, pwd: str):
-        """ Hash a new password """
-
-        hashed = bcrypt.generate_password_hash(pwd)
-        hashed_utf8 = hashed.decode("utf8")
-        return hashed_utf8
-
-    @classmethod
-    def authenticate(cls, username: str, password: str):
-        """ Ensure user exists. Check for correct password. Return user."""
-
-        user = User.query.filter_by(username=username).first()
-        if user and bcrypt.check_password_hash(user.password, password):
-            return user
-        else:
             return None
 
     def __repr__(self):
