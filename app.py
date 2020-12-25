@@ -28,7 +28,7 @@ toolbar = DebugToolbarExtension(app)
 app.config["JWT_ACCESS_LIFESPAN"] = {"hours": 24}
 app.config["JWT_REFRESH_LIFESPAN"] = {"days": 30}
 
-# Connect Flask app to database
+# Connect Flask app to database and initialize Praetorian
 connect_db(app, User)
 
 # Register blueprints from routes folder
