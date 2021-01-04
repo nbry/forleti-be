@@ -66,6 +66,10 @@ def signup():
         return jsonify(message), 400
 
 
+# USER ACCOUNT SETTINGS ROUTE (GET AND POST)
+# USER LOG OUT ROUTE (GET?)
+
+
 # *****************************
 # TESTING ROUTES:
 # REMOVE/CHANGE AT PRODUCTION
