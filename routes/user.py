@@ -13,22 +13,28 @@ def login():
     Handles a request to log in. Authenticates user name and password
     and returns a token.
     """
-
     req = request.json
+
+    # Authenticate using Praetorian's built in method. Returns None if authentication unsuccessful
     user = guard.authenticate(
         req.get('username', None),
         req.get('password', None)
     )
 
+    # If successfully authenticated, return a message and a JWT
     if user:
         message = {
             "message": f"Success! Logged in to {user.username}'s account",
             "token": guard.encode_jwt_token(user)
         }
         return jsonify(message)
+
+    # If not, return an appropriate auth message message.
+    # Theoretically, this code shouldn't run because Praetorian's built in method should
+    # handle it for you. Keeping it as a catch all.
     else:
-        # REMOVE/CHANGE AT PRODUCTION
-        return jsonify("Something went wrong. Origin: routes/user.py: login()")
+        message = {"message": "Authentication failed."}
+        return jsonify(message), 401
 
 
 @user_api.route('/signup', methods=['POST'])
@@ -38,25 +44,26 @@ def signup():
     returns a token.
     """
     req = request.json
+
+    # Sign Up for user using information from the request
     new_user = User.signup(
         req.get('username', None),
         req.get('password', None),
         req.get('email', None)
     )
 
-    # TO BE IMPLEMENTED:
-    # 1. ERROR HANDLING FOR DUPLICATE ACCOUNT
-    # 2. ERROR HANDLING FOR DUPLICATE EMAIL
-
+    # If successfully created, return a message and a JWT
     if new_user:
         message = {
             "message": f"Successfully created account for {new_user.username}",
             "token": guard.encode_jwt_token(new_user)
         }
         return jsonify(message)
+
+    # Duplicate account handling, if new_user is None...
     else:
-        # REMOVE/CHANGE AT PRODUCTION
-        return jsonify("Something went wrong. Origin: routes/user.py: signup()")
+        message = {"message": "User with that username/email already exists!"}
+        return jsonify(message), 400
 
 
 # *****************************
@@ -79,4 +86,3 @@ def protected():
             fp.current_user().username,
         )
     )
-
