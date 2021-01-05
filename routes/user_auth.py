@@ -4,10 +4,10 @@ from flask import Blueprint, request, jsonify
 from connect_models import guard
 from models.user import User
 
-user_api = Blueprint('user_api', __name__)
+user_auth_api = Blueprint('user_api', __name__)
 
 
-@user_api.route('/login', methods=['POST'])
+@user_auth_api.route('/login', methods=['POST'])
 def login():
     """
     Handles a request to log in. Authenticates user name and password
@@ -37,7 +37,7 @@ def login():
         return jsonify(message), 401
 
 
-@user_api.route('/signup', methods=['POST'])
+@user_auth_api.route('/signup', methods=['POST'])
 def signup():
     """
     Handles a request to sign user up for new account. If successful,
@@ -66,15 +66,15 @@ def signup():
         return jsonify(message), 400
 
 
-# USER ACCOUNT SETTINGS ROUTE (GET AND POST)
-# USER LOG OUT ROUTE (GET?)
+# USER LOG OUT ROUTE (GET)? SHOULD THIS EVEN BE IMPLEMENTED? JWT'S SHOULD THEORETICALLY
+# BE STATELESS
 
 
 # *****************************
 # TESTING ROUTES:
 # REMOVE/CHANGE AT PRODUCTION
 # *****************************
-@user_api.route("/protected")
+@user_auth_api.route("/protected")
 @fp.auth_required
 def protected():
     # REMOVE/CHANGE AT PRODUCTION
