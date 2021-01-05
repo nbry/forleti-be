@@ -1,6 +1,6 @@
 from datetime import datetime
 from sqlalchemy.exc import IntegrityError
-from connect_models import db, guard
+from project.extensions import db, guard
 
 
 class User(db.Model):

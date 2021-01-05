@@ -1,6 +1,6 @@
 from flask import jsonify
 
-from connect_models import db
+from project import db
 
 
 class BlogPost(db.Model):

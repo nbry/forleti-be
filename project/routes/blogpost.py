@@ -1,8 +1,6 @@
 """ Routes for blogpost-related tasks """
 from flask import Blueprint
 
-blogpost_api = Blueprint('blogpost_api', __name__)
-
 
 # BLOG POST ROUTE BY ID (GET)
 # BLOG POSTS BY USER (GET)

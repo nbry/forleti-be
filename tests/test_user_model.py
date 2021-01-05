@@ -1,5 +1,5 @@
 """ Tests for User Model """
-from models.user import User
+from project.models.user import User
 
 
 def test_dummy():

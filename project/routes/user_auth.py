@@ -1,13 +1,12 @@
 """ Routes for user auth-related tasks """
 import flask_praetorian as fp
-from flask import Blueprint, request, jsonify
-from connect_models import guard
-from models.user import User
+from flask import request, jsonify
+from project.extensions import guard
+from project.models.user import User
+from . import user_api_blueprint
 
-user_auth_api = Blueprint('user_api', __name__)
 
-
-@user_auth_api.route('/login', methods=['POST'])
+@user_api_blueprint.route('/login', methods=['POST'])
 def login():
     """
     Handles a request to log in. Authenticates user name and password
@@ -37,7 +36,7 @@ def login():
         return jsonify(message), 401
 
 
-@user_auth_api.route('/signup', methods=['POST'])
+@user_api_blueprint.route('/signup', methods=['POST'])
 def signup():
     """
     Handles a request to sign user up for new account. If successful,
@@ -74,7 +73,7 @@ def signup():
 # TESTING ROUTES:
 # REMOVE/CHANGE AT PRODUCTION
 # *****************************
-@user_auth_api.route("/protected")
+@user_api_blueprint.route("/protected")
 @fp.auth_required
 def protected():
     # REMOVE/CHANGE AT PRODUCTION

@@ -1,11 +1,11 @@
 """ Routes for user settings-related tasks """
 import flask_praetorian as fp
-from flask import Blueprint, jsonify, request
+from flask import jsonify, request
 
-user_settings_api = Blueprint('user_settings_api', __name__)
+from . import user_api_blueprint
 
 
-@user_settings_api.route('/settings')
+@user_api_blueprint.route('/settings')
 def settings_menu():
     """
     Return a list of settings options.
@@ -17,7 +17,7 @@ def settings_menu():
     return jsonify({"settings": ["account"]})
 
 
-@user_settings_api.route('/settings/account')
+@user_api_blueprint.route('/settings/account')
 @fp.auth_required
 def account_settings():
     """

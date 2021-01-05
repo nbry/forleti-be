@@ -1,6 +1,6 @@
 """ Seed file to make sample data for db. """
 
-from connect_models import db
+from project import db
 
 # MUST import app for seeding to work
 # noinspection PyUnresolvedReferences
