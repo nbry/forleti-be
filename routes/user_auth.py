@@ -1,4 +1,4 @@
-""" Routes for user/auth-related tasks """
+""" Routes for user auth-related tasks """
 import flask_praetorian as fp
 from flask import Blueprint, request, jsonify
 from connect_models import guard
