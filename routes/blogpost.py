@@ -1,7 +1,5 @@
 """ Routes for blogpost-related tasks """
-import flask_praetorian as fp
-from flask import Blueprint, request, jsonify
-from connect_models import db
+from flask import Blueprint
 
 blogpost_api = Blueprint('blogpost_api', __name__)
 
