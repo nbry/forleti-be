@@ -9,8 +9,8 @@ from . import user_api_blueprint
 @user_api_blueprint.route('/login', methods=['POST'])
 def login():
     """
-    Handles a request to log in. Authenticates user name and password
-    and returns a token.
+    Handle a request to log in. Authenticate user name and password
+    and return a token.
     """
     req = request.json
 
@@ -28,8 +28,8 @@ def login():
         }
         return jsonify(message)
 
-    # If not, return an appropriate auth message message.
-    # Theoretically, this code shouldn't run because Praetorian's built in method should
+    # If not, return an appropriate auth message.
+    # Theoretically, this code shouldn't run because Praetorian's authenticate method should
     # handle it for you. Keeping it as a catch all.
     else:
         message = {"message": "Authentication failed."}
@@ -39,8 +39,8 @@ def login():
 @user_api_blueprint.route('/signup', methods=['POST'])
 def signup():
     """
-    Handles a request to sign user up for new account. If successful,
-    returns a token.
+    Handle a request to sign user up for new account. If successful,
+    return a token.
     """
     req = request.json
 

@@ -22,7 +22,7 @@ def test_testing_fixture(client, db):
     assert response.status_code == 200
 
     # Ensure database is running and has two users
-    # Possibly redundant since the test wouldn't if db was faulty
+    # Possibly redundant since the test would fail if db was faulty
     assert db
 
     # Ensure test database has two users (JaneDoe and JohnApple), as defined in:
