@@ -17,9 +17,9 @@ def test_new_instance_of_user():
     THEN check that the username and email are defined correctly
     """
 
-    new_user = User(username="bobby", email="bobby@bobby.com")
+    new_user = User(username="bobby", email="bobby@emailtest.com")
     assert new_user.username == "bobby"
-    assert new_user.email == "bobby@bobby.com"
+    assert new_user.email == "bobby@emailtest.com"
 
 
 def test_users_in_db_fixture(client, db):
