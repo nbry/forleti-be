@@ -18,6 +18,6 @@ def test_new_user():
     assert new_user.email == "bobby@bobby.com"
 
 
-def test_a_transaction(db_session):
-    user = db_session.query(User).get(1)
-    assert user.username == "bobby"
+# def test_a_transaction(db_session):
+#     user = db_session.query(User).get(1)
+#     assert user.username == "bobby"

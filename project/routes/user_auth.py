@@ -89,3 +89,8 @@ def protected():
             fp.current_user().username,
         )
     )
+
+
+@user_api_blueprint.route('/test')
+def hello_world():
+    return jsonify({"message": "hello world"})
