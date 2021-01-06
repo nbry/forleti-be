@@ -7,6 +7,30 @@
 # 3. testing
 # """
 from project import create_app
+from project.models.user import User
+
+
+def test_testing_fixture(client, db):
+    """
+    GIVEN test_client (i.e. the flask_app fixture)
+    WHEN fixture is created
+    THEN fixture should have correct config settings and two users in the testing db
+    """
+
+    # Ensure test client is running
+    response = client.get('/test')
+    assert response.status_code == 200
+
+    # Ensure database is running and has two users
+    # Possibly redundant since the test wouldn't if db was faulty
+    assert db
+
+    # Ensure test database has two users (JaneDoe and JohnApple), as defined in:
+    # "tests/conftest.py" (under "def db(client)")
+    users = db.session.query(User).all()
+    assert len(users) == 2
+    assert users[0].username == "JaneDoe"
+    assert users[1].username == "JohnApple"
 
 
 def test_testing_config():
@@ -22,7 +46,7 @@ def test_testing_config():
     assert app.config['DEBUG']
 
     # app database URI should be testing database (currently: forleti_test_db on postgreSQL)
-    assert app.config['SQLALCHEMY_DATABASE_URI'] == 'postgres:///forleti_test_db'
+    assert app.config['SQLALCHEMY_DATABASE_URI'] == 'postgresql:///forleti_test_db'
 
 
 def test_development_config():
@@ -38,4 +62,4 @@ def test_development_config():
     assert app.config['DEBUG']
 
     # app database URI should be development database (currently: forleti_db on postgreSQL)
-    assert app.config['SQLALCHEMY_DATABASE_URI'] == 'postgres:///forleti_db'
+    assert app.config['SQLALCHEMY_DATABASE_URI'] == 'postgresql:///forleti_db'
