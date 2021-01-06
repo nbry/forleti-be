@@ -1,11 +1,11 @@
-# """
-# Yo dawg I heard you like tests, so...
-#
-# test_config.py tests the instance config settings for the different environments:
-# 1. development
-# 2. production
-# 3. testing
-# """
+"""
+Yo dawg I heard you like tests, so...
+
+test_config.py tests the instance config settings for the different environments:
+1. development
+2. production
+3. testing
+"""
 from project import create_app
 from project.models.user import User
 
