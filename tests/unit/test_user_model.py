@@ -1,5 +1,11 @@
-""" Tests for User Model """
-from project import create_app
+""" TESTS FOR USER MODELS.
+
+1. Testing the 2 users in the fixture
+2. Testing for adding a new user
+3. Testing flask praetorian methods on User model
+4. Testing other methods (e.g. signup) from User model
+
+"""
 from project.extensions import guard
 from project.models.user import User
 
