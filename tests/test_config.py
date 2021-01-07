@@ -10,7 +10,7 @@ from project import create_app
 from project.models.user import User
 
 
-def test_testing_fixture(client, db):
+def test_testing_fixture(app, client, db):
     """
     GIVEN test_client (i.e. the flask_app fixture)
     WHEN fixture is created
@@ -20,6 +20,9 @@ def test_testing_fixture(client, db):
     # Ensure test client is running
     response = client.get('/test')
     assert response.status_code == 200
+
+    # Ensure correct database is being used
+    assert app.config['SQLALCHEMY_DATABASE_URI'] == 'postgresql:///forleti_test_db'
 
     # Ensure database is running and has two users
     # Possibly redundant since the test would fail if db was faulty
