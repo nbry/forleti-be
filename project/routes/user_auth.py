@@ -2,7 +2,7 @@
 import flask_praetorian as fp
 from flask import request, jsonify
 from project.extensions import guard
-from project.models.user import User
+from project.models import User
 from . import user_api_blueprint
 
 

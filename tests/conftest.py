@@ -1,5 +1,5 @@
 import pytest
-from project.models.user import User
+from project.models import User
 from project import create_app
 from project.extensions import db as _db, guard
 

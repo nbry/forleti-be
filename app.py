@@ -1,4 +1,3 @@
-from flask import jsonify
 from project import create_app
 
 app = create_app("development.cfg")

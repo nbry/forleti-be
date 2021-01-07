@@ -1,5 +1,8 @@
 from flask import Flask
-from project.models.user import User
+
+# Models
+from project.models import User
+from project.models import BlogPost
 
 # Blueprints
 from project.routes import user_api_blueprint

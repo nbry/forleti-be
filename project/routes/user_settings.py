@@ -1,6 +1,6 @@
 """ Routes for user settings-related tasks """
 import flask_praetorian as fp
-from flask import jsonify, request
+from flask import jsonify
 
 from . import user_api_blueprint
 
