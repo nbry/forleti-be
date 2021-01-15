@@ -32,16 +32,13 @@ def get_logged_in_user_from_header():
     on the front end. It is primarily used to retrieve a logged in user's
     information. Thus, keep this route as a protected flask praetorian route.
     """
-    return jsonify({"hello": "world"})
-    # token = request.headers.get("Authorization")
-    # import ipdb;
-    # ipdb.set_trace()
-    # user = guard.get_user_from_registration_token(token)
-    #
-    # if user:
-    #     user = {
-    #         "posts": user.posts,
-    #         "username": user.username,
-    #         "bio": user.bio,
-    #     }
-    #     return jsonify({"user": user})
+
+    user = fp.current_user()
+
+    if user:
+        user = {
+            "posts": user.blogposts,
+            "username": user.username,
+            # "bio": user.bio,
+        }
+        return jsonify({"user": user})
