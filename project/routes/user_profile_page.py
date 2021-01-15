@@ -39,6 +39,6 @@ def get_logged_in_user_from_header():
         user = {
             "posts": user.blogposts,
             "username": user.username,
-            # "bio": user.bio,
+            "bio": user.bio,
         }
         return jsonify({"user": user})

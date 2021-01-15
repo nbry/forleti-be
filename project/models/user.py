@@ -10,6 +10,7 @@ class User(db.Model):
     username = db.Column(db.Text, nullable=False, unique=True)
     hashed_password = db.Column(db.Text, nullable=False)
     email = db.Column(db.Text, nullable=False, unique=True)
+    bio = db.Column(db.String(200))
     roles = db.Column(db.Text)
     created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
