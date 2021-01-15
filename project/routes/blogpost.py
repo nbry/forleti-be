@@ -42,7 +42,9 @@ def create_new_blog_post():
 def get_blogposts_by_username(username):
     """
     Search for a user by username.
-    If matching user is found, return all blog posts made by the user
+    If matching user is found, return all blog posts made by the user.
+    Supply relevant information to load a "profile page". i.e. return the
+    user's username and bio as well.
     """
     res = User.lookup(username)
     if res:
