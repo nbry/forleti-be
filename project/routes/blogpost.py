@@ -34,27 +34,4 @@ def create_new_blog_post():
     """
     req = request.json
 
-
 #     TO BE FINISHED AFTER FRONT END WYSIWYG EDITOR IS CONFIGURED...
-
-
-@blogpost_api_blueprint.route('/<username>')
-def get_blogposts_by_username(username):
-    """
-    Search for a user by username.
-    If matching user is found, return all blog posts made by the user.
-    Supply relevant information to load a "profile page". i.e. return the
-    user's username and bio as well.
-    """
-    res = User.lookup(username)
-    if res:
-        user = {
-            "posts": res.posts,
-            "username": res.username,
-            "bio": res.bio,
-        }
-        return jsonify({"user": user})
-
-    # BLOG POSTS BY USER (GET)
-    # CREATE AND PATCH A BLOG POST (GET AND POST)
-    # EDIT A POST (PATCH)
