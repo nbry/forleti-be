@@ -48,8 +48,13 @@ def get_blogposts_by_username(username):
     """
     res = User.lookup(username)
     if res:
-        return jsonify({"posts": res.posts})
+        user = {
+            "posts": res.posts,
+            "username": res.username,
+            "bio": res.bio,
+        }
+        return jsonify({"user": user})
 
-# BLOG POSTS BY USER (GET)
-# CREATE AND PATCH A BLOG POST (GET AND POST)
-# EDIT A POST (PATCH)
+    # BLOG POSTS BY USER (GET)
+    # CREATE AND PATCH A BLOG POST (GET AND POST)
+    # EDIT A POST (PATCH)

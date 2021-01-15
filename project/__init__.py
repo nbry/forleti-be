@@ -5,7 +5,7 @@ from project.models import User
 from project.models import BlogPost
 
 # Blueprints
-from project.routes import user_api_blueprint
+from project.routes import user_auth_api_blueprint
 from project.routes import blogpost_api_blueprint
 
 # Extensions:
@@ -54,5 +54,5 @@ def register_blueprints(app):
     """
     Register all blueprints to an instantiated Flask application.
     """
-    app.register_blueprint(user_api_blueprint)
+    app.register_blueprint(user_auth_api_blueprint)
     app.register_blueprint(blogpost_api_blueprint)

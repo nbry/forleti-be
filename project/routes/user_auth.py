@@ -3,10 +3,10 @@ import flask_praetorian as fp
 from flask import request, jsonify
 from project.extensions import guard
 from project.models import User
-from . import user_api_blueprint
+from . import user_auth_api_blueprint
 
 
-@user_api_blueprint.route('/login', methods=['POST'])
+@user_auth_api_blueprint.route('/login', methods=['POST'])
 def login():
     """
     Handle a request to log in. Authenticate user name and password
@@ -36,7 +36,7 @@ def login():
         return jsonify(message), 401
 
 
-@user_api_blueprint.route('/signup', methods=['POST'])
+@user_auth_api_blueprint.route('/signup', methods=['POST'])
 def signup():
     """
     Handle a request to sign user up for new account. If successful,
@@ -73,7 +73,7 @@ def signup():
 # TESTING ROUTES:
 # REMOVE/CHANGE AT PRODUCTION
 # *****************************
-@user_api_blueprint.route("/protected")
+@user_auth_api_blueprint.route("/protected")
 @fp.auth_required
 def protected():
     # REMOVE/CHANGE AT PRODUCTION
@@ -91,6 +91,6 @@ def protected():
     )
 
 
-@user_api_blueprint.route('/test')
+@user_auth_api_blueprint.route('/test')
 def hello_world():
     return jsonify({"message": "hello world"})
