@@ -26,12 +26,30 @@ def get_blogpost_by_id(blogpost_id):
         return jsonify(message)
 
 
-@blogpost_api_blueprint.route('/bp/new')
+@blogpost_api_blueprint.route('/bp/new', methods=["POST"])
 @fp.auth_required
 def create_new_blog_post():
     """
     Create a new blog post
     """
     req = request.json
+
+    user_id = fp.current_user_id()
+    title = req.get("title", None)
+    content = req.get("content", None)
+
+    new_blogpost = BlogPost.create_new_blogpost(user_id, content, title)
+
+    if new_blogpost:
+        blogpost = {
+            "title": new_blogpost.title,
+            "content": new_blogpost.content
+        }
+        return jsonify({"blogpost": blogpost})
+    else:
+        message = {
+            "status": 401,
+            "message": "Blog post not created. Something went wrong"}
+        return jsonify(message)
 
 #     TO BE FINISHED AFTER FRONT END WYSIWYG EDITOR IS CONFIGURED...
