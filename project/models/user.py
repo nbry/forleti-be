@@ -14,6 +14,9 @@ class User(db.Model):
     roles = db.Column(db.Text)
     created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
+    blogposts = db.relationship("BlogPost", order_by="desc(BlogPost.created)",
+                                backref="user", lazy=True)
+
     # *****************************
     # REQUIRED PROPERTIES AND METHODS BY FLASK PRAETORIAN:
     # *****************************

@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask import jsonify
 from project.extensions import db
 
@@ -7,14 +8,12 @@ class BlogPost(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(100), nullable=False)
-    subtitle = db.Column(db.String(100))
     content = db.Column(db.Text, nullable=False)
+    created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id = db.Column(
         db.Integer,
         db.ForeignKey("users.id", ondelete="cascade"),
         nullable=False)
-
-    user = db.relationship("User", backref="blogposts", lazy=True)
 
     # *****************************
     # CRUD methods:
@@ -28,11 +27,11 @@ class BlogPost(db.Model):
         return cls.query.get_or_404(blogpost_id)
 
     @classmethod
-    def create_new_blogpost(cls, user_id, content, title, subtitle=None):
+    def create_new_blogpost(cls, user_id, content, title):
         """
         Create a new blog post. Return blogpost
         """
-        new_blogpost = cls(user_id=user_id, content=content, title=title, subtitle=subtitle)
+        new_blogpost = cls(user_id=user_id, content=content, title=title)
         db.session.add(new_blogpost)
 
         # noinspection PyBroadException
