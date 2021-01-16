@@ -16,8 +16,9 @@ def get_user_by_username(username):
     """
     user = User.lookup(username)
     if user:
-        user_blogposts = [{"title": bp.title, "content": bp.content} for bp in user.blogposts]
-
+        user_blogposts = [{"title": bp.title,
+                           "content": bp.content,
+                           "created": bp.created} for bp in user.blogposts]
         user = {
             "posts": user_blogposts,
             "username": user.username,
@@ -44,8 +45,9 @@ def get_logged_in_user_from_header():
     user = fp.current_user()
 
     if user:
-        user_blogposts = [{"title": bp.title, "content": bp.content} for bp in user.blogposts]
-
+        user_blogposts = [{"title": bp.title,
+                           "content": bp.content,
+                           "created": bp.created} for bp in user.blogposts]
         user = {
             "posts": user_blogposts,
             "username": user.username,
