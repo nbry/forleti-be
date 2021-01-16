@@ -6,7 +6,7 @@ from . import user_profile_api_blueprint
 from project.extensions import guard
 
 
-@user_profile_api_blueprint.route('/<username>')
+@user_profile_api_blueprint.route('/user/<username>')
 def get_user_by_username(username):
     """
     Search for a user by username.
@@ -14,14 +14,20 @@ def get_user_by_username(username):
     Supply relevant information to load a "profile page". i.e. return the
     user's username and bio as well.
     """
-    res = User.lookup(username)
-    if res:
+    user = User.lookup(username)
+    if user:
         user = {
-            "posts": res.posts,
-            "username": res.username,
-            "bio": res.bio,
+            "posts": user.blogposts,
+            "username": user.username,
+            "bio": user.bio,
         }
         return jsonify({"user": user})
+    else:
+        message = {
+            "status": 404,
+            "message": "No User Found"
+        }
+        return jsonify(message)
 
 
 @user_profile_api_blueprint.route('/home')
@@ -42,3 +48,9 @@ def get_logged_in_user_from_header():
             "bio": user.bio,
         }
         return jsonify({"user": user})
+    else:
+        message = {
+            "status": 404,
+            "message": "No User Found"
+        }
+        return jsonify(message)
