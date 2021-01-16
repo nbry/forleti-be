@@ -16,8 +16,8 @@ def get_blogpost_by_id(blogpost_id):
     if res:
         blogpost = {
             "title": res.title,
-            "subtitle": res.subtitle,
             "content": res.content,
+            "created": res.created,
             "author": res.user
         }
         return jsonify({"blogpost": blogpost})
@@ -43,7 +43,9 @@ def create_new_blog_post():
     if new_blogpost:
         blogpost = {
             "title": new_blogpost.title,
-            "content": new_blogpost.content
+            "content": new_blogpost.content,
+            "created": new_blogpost.created,
+            "author": fp.current_user()
         }
         return jsonify({"blogpost": blogpost})
     else:
