@@ -45,7 +45,7 @@ def create_new_blog_post():
             "title": new_blogpost.title,
             "content": new_blogpost.content,
             "created": new_blogpost.created,
-            "author": fp.current_user()
+            "author": fp.current_user().username
         }
         return jsonify({"blogpost": blogpost})
     else:
