@@ -1,9 +1,8 @@
 """ Routes for user profile-related tasks """
 import flask_praetorian as fp
-from flask import jsonify, request
+from flask import jsonify
 from project.models import User
 from . import user_profile_api_blueprint
-from project.extensions import guard
 
 
 @user_profile_api_blueprint.route('/user/<username>')
@@ -53,6 +52,7 @@ def get_logged_in_user_from_header():
         user = {
             "posts": user_blogposts,
             "username": user.username,
+            "email": user.email,
             "bio": user.bio,
         }
         return jsonify({"user": user})
