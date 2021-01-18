@@ -1,4 +1,6 @@
 from datetime import datetime
+
+from flask import jsonify
 from sqlalchemy.exc import IntegrityError
 from project.extensions import db, guard
 
@@ -95,3 +97,27 @@ class User(db.Model):
         except IntegrityError:
             db.session.rollback()
             return None
+
+    @classmethod
+    def change_account_setting(cls, setting: str, change_to: str, username: str, password: str):
+        """
+         Authenticate user. If successful, change requested account setting.
+         Sanitize request object by check to see if setting is allowed to be changed.
+         for change requests. Changes can only be made to username or password.
+         NOTE: Changes to email won't be supported until an email verification
+         system is set up. Return a message.
+        """
+        changeable = ("username", "password")
+        if setting not in changeable:
+            return jsonify({"message": f"{setting} cannot be in changed"}, 400)
+
+        user = guard.authenticate(username, password)
+
+        # noinspection PyBroadException
+        try:
+            user[setting] = change_to
+            db.session.commit()
+            return jsonify({"message": f"{setting} changed successfully!"}, 200)
+
+        except Exception:
+            return jsonify({"message": "change could not be submitted"}, 400)
