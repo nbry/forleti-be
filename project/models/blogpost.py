@@ -56,37 +56,36 @@ class BlogPost(db.Model):
             try:
                 db.session.delete(blogpost)
                 db.session.commit()
-                return jsonify({"message": "Post deleted!"})
+                return jsonify({"message": "Post deleted!"}, 200)
             except Exception:
                 db.session.rollback()
-                return jsonify({"message": "Something went wrong."})
+                return jsonify({"message": "Something went wrong."}, 400)
         else:
             return jsonify({"message": f"No post with id {blogpost_id} found"})
 
     @classmethod
     def update_blogpost(cls, blogpost_id, **kwargs):
         """
-        Find a post by id. Looks for "title", "subtitle", or "content" within
+        Find a post by id. Looks for "title" or "content" within
         kwargs and updates the blog post with the provided items.
 
         e.g.
-        update_blogpost(3, title="New Dog", subtitle="So Excited!", age=9)
+        update_blogpost(3, title="New Dog", age=9)
         -> Finds blogpost with id of 3
         -> Updates title to "New Dog"
-        -> Updates subtitle to "So Excited!"
         -> age parameter is ignored.
+        -> Sets "edited" to True
         """
 
         blogpost = cls.find_blogpost_by_id(blogpost_id)
         blogpost.title = kwargs.get("title", blogpost.title)
-        blogpost.subtitle = kwargs.get("subtitle", blogpost.subtitle)
         blogpost.content = kwargs.get("content", blogpost.content)
         blogpost.edited = True
 
         # noinspection PyBroadException
         try:
             db.session.commit()
-            return jsonify({"message": "Post updated!"})
+            return jsonify({"message": "Post updated!"}, 200)
         except Exception:
             db.session.rollback()
-            return jsonify({"message": "Something went wrong."})
+            return jsonify({"message": "Something went wrong."}, 400)
