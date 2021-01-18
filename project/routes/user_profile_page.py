@@ -18,6 +18,7 @@ def get_user_by_username(username):
         user_blogposts = [{"id": bp.id,
                            "title": bp.title,
                            "content": bp.content,
+                           "user_id": bp.user_id,
                            "created": bp.created} for bp in user.blogposts]
         user = {
             "posts": user_blogposts,
@@ -49,8 +50,10 @@ def get_logged_in_user_from_header():
         user_blogposts = [{"id": bp.id,
                            "title": bp.title,
                            "content": bp.content,
+                           "user_id": bp.user_id,
                            "created": bp.created} for bp in user.blogposts]
         user = {
+            "id": user.id,
             "posts": user_blogposts,
             "username": user.username,
             "email": user.email,
