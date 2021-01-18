@@ -22,7 +22,7 @@ def get_user_by_username(username):
         user = {
             "posts": user_blogposts,
             "username": user.username,
-            "bio": user.bio,
+            "bio": user.profile_settings[0].bio,
         }
         return jsonify({"user": user})
     else:
@@ -45,6 +45,7 @@ def get_logged_in_user_from_header():
     user = fp.current_user()
 
     if user:
+
         user_blogposts = [{"id": bp.id,
                            "title": bp.title,
                            "content": bp.content,
@@ -53,7 +54,7 @@ def get_logged_in_user_from_header():
             "posts": user_blogposts,
             "username": user.username,
             "email": user.email,
-            "bio": user.bio,
+            "bio": user.profile_settings[0].bio,
         }
         return jsonify({"user": user})
     else:

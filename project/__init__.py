@@ -1,8 +1,9 @@
 from flask import Flask
 
 # Models
-from project.models import User
 from project.models import BlogPost
+from project.models import User
+from project.models import UserProfileSettings
 
 # Blueprints
 from project.routes import user_auth_api_blueprint

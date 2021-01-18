@@ -4,6 +4,7 @@ from flask import request, jsonify
 from project.extensions import guard
 from project.models import User
 from . import user_auth_api_blueprint
+from .. import UserProfileSettings
 
 
 @user_auth_api_blueprint.route('/login', methods=['POST'])
@@ -51,8 +52,11 @@ def signup():
         req.get('email', None)
     )
 
+    # Initialize settings profile for new user
+    settings = UserProfileSettings.initialize(new_user.id)
+
     # If successfully created, return a message and a JWT
-    if new_user:
+    if new_user and settings:
         message = {
             "message": f"Successfully created account for {new_user.username}",
             "token": guard.encode_jwt_token(new_user)
