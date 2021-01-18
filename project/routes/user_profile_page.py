@@ -55,6 +55,10 @@ def get_logged_in_user_from_header():
             "username": user.username,
             "email": user.email,
             "bio": user.profile_settings[0].bio,
+            "avatar_url": user.profile_settings[0].avatar_url,
+            "header_url": user.profile_settings[0].header_url,
+            "theme": user.profile_settings[0].theme,
+            "dark_mode": user.profile_settings[0].dark_mode
         }
         return jsonify({"user": user})
     else:
