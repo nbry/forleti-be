@@ -10,6 +10,7 @@ class BlogPost(db.Model):
     title = db.Column(db.String(100), nullable=False)
     content = db.Column(db.Text, nullable=False)
     created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    edited = db.Column(db.Boolean, nullable=False, default=False)
     user_id = db.Column(
         db.Integer,
         db.ForeignKey("users.id", ondelete="cascade"),
@@ -80,6 +81,7 @@ class BlogPost(db.Model):
         blogpost.title = kwargs.get("title", blogpost.title)
         blogpost.subtitle = kwargs.get("subtitle", blogpost.subtitle)
         blogpost.content = kwargs.get("content", blogpost.content)
+        blogpost.edited = True
 
         # noinspection PyBroadException
         try:
