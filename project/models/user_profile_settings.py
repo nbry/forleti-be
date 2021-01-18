@@ -1,4 +1,5 @@
 from flask import jsonify
+from sqlalchemy.exc import IntegrityError
 
 from project.extensions import db
 
@@ -8,8 +9,8 @@ class UserProfileSettings(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     bio = db.Column(db.String(200))
-    avatar_url = db.column(db.Text)
-    header_url = db.column(db.Text)
+    avatar_url = db.Column(db.Text)
+    header_url = db.Column(db.Text)
     theme = db.Column(db.Integer, default=1)
     dark_mode = db.Column(db.Boolean, default=False)
     user_id = db.Column(
@@ -19,6 +20,22 @@ class UserProfileSettings(db.Model):
         unique=True)
 
     user = db.relationship("User", backref="profile_settings", lazy=True)
+
+    @classmethod
+    def initialize(cls, user_id):
+        """
+        This method is to be used when a user account is created. Initializes
+        a settings profile for the user with default values.
+        """
+        new_user_settings = cls(user_id=user_id)
+        db.session.add(new_user_settings)
+
+        try:
+            db.session.commit()
+            return new_user_settings
+        except IntegrityError:
+            db.session.rolback()
+            return None
 
     @classmethod
     def update_settings(cls, user_id, settings: dict):

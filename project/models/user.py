@@ -95,6 +95,3 @@ class User(db.Model):
         except IntegrityError:
             db.session.rollback()
             return None
-
-    def __repr__(self):
-        return f'<User {self.get("username", None)}>'
