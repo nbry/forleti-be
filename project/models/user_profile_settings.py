@@ -15,7 +15,7 @@ class UserProfileSettings(db.Model):
     dark_mode = db.Column(db.Boolean, default=False)
     user_id = db.Column(
         db.Integer,
-        db.ForeignKey("users.id", ondelete="CASCADE"),
+        db.ForeignKey("users.id"),
         nullable=False,
         unique=True)
 
