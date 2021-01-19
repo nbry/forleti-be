@@ -103,7 +103,8 @@ class User(db.Model):
         """
          Authenticate user. If successful, change requested account setting.
          Sanitize request object by check to see if setting is allowed to be changed.
-         for change requests. Changes can only be made to username or password.
+         Keep this function EXPLICIT to ensure safety.
+         Changes can only be made to username or password.
          NOTE: Changes to email won't be supported until an email verification
          system is set up. Return a message.
         """
@@ -115,9 +116,16 @@ class User(db.Model):
 
         # noinspection PyBroadException
         try:
-            user[setting] = change_to
-            db.session.commit()
-            return jsonify({"message": f"{setting} changed successfully!"}, 200)
+            # Again, keep this function explicit. Don't use a loop.
+            if setting == "username":
+                user.username = change_to
+                db.session.commit()
+                return jsonify({"message": "username changed successfully!"}, 200)
+
+            if setting == "password":
+                user.hashed_password = guard.hash_password(change_to)
+                db.session.commit()
+                return jsonify({"message": "password changed successfully!"}, 200)
 
         except Exception:
             return jsonify({"message": "change could not be submitted"}, 400)

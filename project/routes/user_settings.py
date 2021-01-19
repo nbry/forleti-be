@@ -1,15 +1,42 @@
 """ Routes for user settings-related tasks """
 import flask_praetorian as fp
-from flask import jsonify
+from flask import jsonify, request
 
 from . import user_settings_api_blueprint
+from project.models import User
+from project.models import UserProfileSettings
 
 
+@user_settings_api_blueprint.route('/settings/change', methods=["POST"])
+@fp.auth_required
+def change_user_setting():
+    """
+    This route is to be used when user is submitting a change to their profile
+    or account. Changes are submitted through a request. If user is requesting
+    an account change (i.e. category="account"), user must provide a password
+    and be authenticated. Return a message.
+    """
+    req = request.json
+
+    if req.get("category") == "account":
+        user = fp.current_user()
+        message = User.change_account_setting(req.get("setting"), req.get("changeTo"), user.username,
+                                              req.get("password"))
+        return message
+
+    else:
+        user = fp.current_user()
+        message = UserProfileSettings.update_settings(req.get("setting"), req.get("changeTo"), user.id)
+        return message
+
+
+# This route is not being utilized at the moment, but keep it
+# for future implementation
 @user_settings_api_blueprint.route('/settings')
 @fp.auth_required
 def get_user_settings():
     """
-    Get currently logged in user and return settings dictionary
+    Get currently logged in user and return settings dictionary.
     """
 
     user = fp.current_user()

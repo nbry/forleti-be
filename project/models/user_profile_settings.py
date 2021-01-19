@@ -38,31 +38,24 @@ class UserProfileSettings(db.Model):
             return None
 
     @classmethod
-    def update_settings(cls, user_id, settings: dict):
+    def update_settings(cls, setting: str, change_to, user_id: int):
         """
-        Update profile settings provided with information provided
-        in a dictionary. Settings dictionary can include bio,
-        avatar_url, header_url, theme, and/or dark_mode. Intended to receive
-        data from front end after user submits a form to change settings.
-        Returns a dictionary of user settings or message.
+        Change requested profile setting.
+        Sanitize request object by check to see if setting is allowed to be changed.
+        Keep this explicitly in a tuple for ensured safety. Changes can only
+        be made to bio, avatar_url, header_url, theme, and dark_mode.
+        Return a message.
         """
-        user_set = cls.query.filter_by(user_id=user_id).one_or_none()
+        changeable = ("bio", "avatar_url", "header_url", "theme", "dark_mode")
+        if setting not in changeable:
+            return jsonify({"message": f"{setting} cannot be in changed"}, 400)
 
-        if user_set:
-            # noinspection PyBroadException
-            try:
-                # Not the DRYest code, but keep these explicit.
-                user_set.bio = settings.get("bio", user_set.bio)
-                user_set.avatar_url = settings.get("avatar_url", user_set.avatar_url)
-                user_set.header_url = settings.get("header_url", user_set.header_url)
-                user_set.theme = settings.get("theme", user_set.theme)
-                user_set.dark_mode = settings.get("dark_mode", user_set.dark_mode)
-                db.session.commit()
+        settings = cls.query.filter_by(user_id=user_id).one_or_none()
+        # noinspection PyBroadException
+        try:
+            settings[setting] = change_to
+            db.session.commit()
+            return jsonify({"message": f"{setting} changed successfully!"}, 200)
 
-                return user_set
-
-            except Exception:
-                db.session.rollback()
-                return jsonify({"message": "Could not update settings."})
-        else:
-            return jsonify({"message": "Something went wrong."})
+        except Exception:
+            return jsonify({"message": "change could not be submitted"}, 400)
