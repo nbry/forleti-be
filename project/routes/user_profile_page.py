@@ -23,6 +23,7 @@ def get_user_by_username(username):
         user = {
             "posts": user_blogposts,
             "username": user.username,
+            "display_name": user.display_name,
             "bio": user.profile_settings[0].bio,
         }
         return jsonify({"user": user})
