@@ -8,6 +8,12 @@ from project.extensions import db, guard
 class User(db.Model):
     __tablename__ = "users"
 
+    # Provide a getter method. In other words, allow attributes to
+    # be retrieved with square bracket notation.
+    # e.g. getting a user's username --> user.username OR user['username']
+    def __getitem__(self, key):
+        return self.__dict__[key]
+
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(15), nullable=False, unique=True)
     display_name = db.Column(db.String(50))
@@ -117,12 +123,11 @@ class User(db.Model):
         """
          Authenticate user. If successful, change requested account setting.
          Sanitize request object by check to see if setting is allowed to be changed.
-         Keep this function EXPLICIT to ensure safety.
-         Changes can only be made to username or password.
+         Changes can only be made to username, display name, or password.
          NOTE: Changes to email won't be supported until an email verification
          system is set up. Return a message.
         """
-        changeable = ("username", "password")
+        changeable = ("username", "display_name", "password")
         if setting not in changeable:
             return jsonify({"message": f"{setting} cannot be in changed"}), 400
 
@@ -130,16 +135,9 @@ class User(db.Model):
 
         # noinspection PyBroadException
         try:
-            # Again, keep this function explicit. DO NOT USE A LOOP!
-            if setting == "username":
-                user.username = change_to
-                db.session.commit()
-                return jsonify({"message": "username changed successfully!"}), 200
-
-            if setting == "password":
-                user.hashed_password = guard.hash_password(change_to)
-                db.session.commit()
-                return jsonify({"message": "password changed successfully!"}), 200
+            user[setting] = change_to
+            db.session.commit()
+            return jsonify({"message": f"{setting} changed successfully!"}), 200
 
         except Exception:
             return jsonify({"message": "change could not be submitted"}), 400

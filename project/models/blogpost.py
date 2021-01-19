@@ -6,6 +6,12 @@ from project.extensions import db
 class BlogPost(db.Model):
     __tablename__ = "blogposts"
 
+    # Provide a getter method. In other words, allow attributes to
+    # be retrieved with square bracket notation.
+    # e.g. getting a blog's title --> blog.title OR blog['title']
+    def __getitem__(self, key):
+        return self.__dict__[key]
+
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(100), nullable=False)
     content = db.Column(db.Text, nullable=False)
