@@ -6,9 +6,14 @@ from project.extensions import db
 class BlogPost(db.Model):
     __tablename__ = "blogposts"
 
-    # Provide a getter method. In other words, allow attributes to
+    # [UTILITY] Provide a getter method. In other words, allow attributes to
     # be retrieved with square bracket notation.
-    # e.g. getting a blog's title --> blog.title OR blog['title']
+    # e.g. getting a blog's title --> blogpost.title OR blogpost['title']
+    #
+    # NOTE: you still can't assign a new value using bracket notation.
+    # For example, if you wanted to change a post's title to 'New Recipe',
+    # blogpost['title'] = 'New Recipe' still won't work. To do this, access the
+    # internal __dict__ and modify attributes that way.
     def __getitem__(self, key):
         return self.__dict__[key]
 

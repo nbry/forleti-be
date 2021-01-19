@@ -7,9 +7,14 @@ from project.extensions import db
 class UserProfileSettings(db.Model):
     __tablename__ = "user_profile_settings"
 
-    # Provide a getter method. In other words, allow attributes to
+    # [UTILITY] Provide a getter method. In other words, allow attributes to
     # be retrieved with square bracket notation.
     # e.g. getting a user's username --> user.username OR user['username']
+    #
+    # NOTE: you still can't assign a new value using bracket notation.
+    # For example, if you wanted to change a user's username to 'Jane123',
+    # user['username'] = 'Jane123' still won't work. To do this, access the
+    # internal __dict__ and modify attributes that way.
     def __getitem__(self, key):
         return self.__dict__[key]
 
