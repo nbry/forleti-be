@@ -15,7 +15,7 @@ class User(db.Model):
     # NOTE: you still can't assign a new value using bracket notation.
     # For example, if you wanted to change a user's username to 'Jane123',
     # user['username'] = 'Jane123' still won't work. To do this, access the
-    # internal __dict__ and modify attributes that way.
+    # use setattr method (i.e. setattr(user, 'username', 'Jane123)
     def __getitem__(self, key):
         return self.__dict__[key]
 
@@ -140,8 +140,7 @@ class User(db.Model):
 
         # noinspection PyBroadException
         try:
-            import ipdb; ipdb.set_trace()
-            user[setting] = change_to
+            setattr(user, setting, change_to)
             db.session.commit()
             return jsonify({"message": f"{setting} changed successfully!"}), 200
 

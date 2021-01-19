@@ -13,7 +13,7 @@ class BlogPost(db.Model):
     # NOTE: you still can't assign a new value using bracket notation.
     # For example, if you wanted to change a post's title to 'New Recipe',
     # blogpost['title'] = 'New Recipe' still won't work. To do this, access the
-    # internal __dict__ and modify attributes that way.
+    # use setattr method (i.e. setattr(blogpost, 'title', 'New Recipe')
     def __getitem__(self, key):
         return self.__dict__[key]
 
