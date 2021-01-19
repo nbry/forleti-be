@@ -153,7 +153,5 @@ class User(db.Model):
             db.session.commit()
             return jsonify({"message": "success"}), 200
 
-        except IntegrityError as e:
-            import ipdb
-            ipdb.set_trace()
+        except IntegrityError:
             return jsonify({"message": "could not delete user"}), 400

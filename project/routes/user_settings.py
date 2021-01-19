@@ -57,4 +57,4 @@ def get_user_settings():
             return jsonify({"settings": settings})
 
         except Exception:
-            return jsonify({"message": "Something went wrong."})
+            return jsonify({"message": "Something went wrong."}), 400

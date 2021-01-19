@@ -86,7 +86,7 @@ class BlogPost(db.Model):
         # noinspection PyBroadException
         try:
             db.session.commit()
-            return jsonify({"message": "Post updated!"}, 200)
+            return jsonify({"message": "Post updated!"}), 200
         except Exception:
             db.session.rollback()
-            return jsonify({"message": "Something went wrong."}, 400)
+            return jsonify({"message": "Something went wrong."}), 400

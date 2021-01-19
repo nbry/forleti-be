@@ -65,7 +65,7 @@ def edit_blog_post(blogpost_id):
     blogpost = BlogPost.find_blogpost_by_id(blogpost_id)
 
     if blogpost.user_id != fp.current_user_id():
-        return jsonify({"message": "Unauthorized"}, 401)
+        return jsonify({"message": "Unauthorized"}), 401
 
     req = request.json
 
@@ -87,7 +87,7 @@ def delete_blog_post(blogpost_id):
     blogpost = BlogPost.find_blogpost_by_id(blogpost_id)
 
     if blogpost.user_id != fp.current_user_id():
-        return jsonify({"message": "Unauthorized"}, 401)
+        return jsonify({"message": "Unauthorized"}), 401
 
     message = BlogPost.delete_blogpost(blogpost_id)
 

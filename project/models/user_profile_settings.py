@@ -46,7 +46,7 @@ class UserProfileSettings(db.Model):
         """
         changeable = ("bio", "avatar_url", "header_url", "theme", "dark_mode")
         if setting not in changeable:
-            return jsonify({"message": f"{setting} cannot be in changed"}, 400)
+            return jsonify({"message": f"{setting} cannot be in changed"}), 400
 
         settings = cls.query.filter_by(user_id=user_id).one_or_none()
         # noinspection PyBroadException
@@ -56,7 +56,7 @@ class UserProfileSettings(db.Model):
             if setting == "bio":
                 settings.bio = change_to
                 db.session.commit()
-                return jsonify({"message": f"{setting} changed successfully!"}, 200)
+                return jsonify({"message": f"{setting} changed successfully!"}), 200
 
             # IMPLEMENT THESE AS YOU INTRODUCE THE ABILITY TO CHANGE:
 
@@ -81,4 +81,4 @@ class UserProfileSettings(db.Model):
             #     return jsonify({"message": f"{setting} changed successfully!"}, 200)
 
         except Exception:
-            return jsonify({"message": "change could not be submitted"}, 400)
+            return jsonify({"message": "change could not be submitted"}), 400
