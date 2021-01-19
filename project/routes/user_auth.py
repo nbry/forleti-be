@@ -43,17 +43,19 @@ def signup():
     return a token.
     """
     req = request.json
+    username = req.get("username", None)
+    password = req.get("password", None)
+    email = req.get("email", None)
 
     # Check if password in request is less than 6 characters
-    if len(req.get("password")) < 6:
-        return jsonify({"message": "password must be 6 characters or longer"}), 400
+    if len(password) < 8 or len(username) < 6:
+        return jsonify({"message": "INVALID USERNAME/PASSWORD",
+                        "username_constraints": "Username must be unique and between 5 and 15 characters",
+                        "password_constraints": "Password must be 8 to 50 characters in length"}
+                       ), 400
 
     # Sign Up for user using information from the request
-    new_user = User.signup(
-        req.get('username', None),
-        req.get('password', None),
-        req.get('email', None)
-    )
+    new_user = User.signup(username, password, email)
 
     # Initialize settings profile for new user
     settings = UserProfileSettings.initialize(new_user.id)

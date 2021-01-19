@@ -9,8 +9,8 @@ class User(db.Model):
     __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    username = db.Column(db.String(6), nullable=False, unique=True)
-    display_name = db.Column(db.String(20))
+    username = db.Column(db.String(15), nullable=False, unique=True)
+    display_name = db.Column(db.String(50))
     hashed_password = db.Column(db.Text, nullable=False)
     email = db.Column(db.Text, nullable=False, unique=True)
     roles = db.Column(db.Text)
@@ -102,7 +102,7 @@ class User(db.Model):
                        hashed_password=hashed_pass,
                        email=email,
                        display_name=display_name)
-        
+
         db.session.add(new_user)
 
         try:
