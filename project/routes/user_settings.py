@@ -1,6 +1,6 @@
 """ Routes for user settings-related tasks """
 import flask_praetorian as fp
-from flask import  request
+from flask import request
 
 from . import user_settings_api_blueprint
 from project.models import User
@@ -28,7 +28,6 @@ def change_user_setting():
         user = fp.current_user()
         message = UserProfileSettings.update_settings(req.get("setting"), req.get("changeTo"), user.id)
         return message
-
 
 # This route is not being utilized at the moment, but keep it
 # for future implementation

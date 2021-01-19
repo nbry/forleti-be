@@ -57,10 +57,10 @@ class BlogPost(db.Model):
             try:
                 db.session.delete(blogpost)
                 db.session.commit()
-                return jsonify({"message": "Post deleted!"}, 200)
+                return jsonify({"message": "Post deleted!"}), 200
             except Exception:
                 db.session.rollback()
-                return jsonify({"message": "Something went wrong."}, 400)
+                return jsonify({"message": "Something went wrong."}), 200
         else:
             return jsonify({"message": f"No post with id {blogpost_id} found"})
 

@@ -41,6 +41,9 @@ def get_logged_in_user_from_header():
     Search for a user by id. This route is not intended to resemble a route
     on the front end. It is primarily used to retrieve a logged in user's
     information. Thus, keep this route as a protected flask praetorian route.
+
+    This route provides "user settings for the logged in user", information
+    that will be utilized in the user settings page on the front end.
     """
 
     user = fp.current_user()
@@ -54,6 +57,7 @@ def get_logged_in_user_from_header():
                            "created": bp.created} for bp in user.blogposts]
         user = {
             "id": user.id,
+            "display_name": user.display_name,
             "posts": user_blogposts,
             "username": user.username,
             "email": user.email,

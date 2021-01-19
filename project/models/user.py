@@ -97,7 +97,12 @@ class User(db.Model):
         Return user.
         """
         hashed_pass = guard.hash_password(raw_pass)
-        new_user = cls(username=username, hashed_password=hashed_pass, email=email)
+        display_name = f"{username}'s Blog"
+        new_user = cls(username=username,
+                       hashed_password=hashed_pass,
+                       email=email,
+                       display_name=display_name)
+        
         db.session.add(new_user)
 
         try:
