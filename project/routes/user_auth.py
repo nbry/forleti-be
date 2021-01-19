@@ -44,6 +44,10 @@ def signup():
     """
     req = request.json
 
+    # Check if password in request is less than 6 characters
+    if len(req.get("password")) < 6:
+        return jsonify({"message": "password must be 6 characters or longer"}), 400
+
     # Sign Up for user using information from the request
     new_user = User.signup(
         req.get('username', None),

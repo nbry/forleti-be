@@ -9,7 +9,8 @@ class User(db.Model):
     __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    username = db.Column(db.Text, nullable=False, unique=True)
+    username = db.Column(db.String(6), nullable=False, unique=True)
+    display_name = db.Column(db.String(20))
     hashed_password = db.Column(db.Text, nullable=False)
     email = db.Column(db.Text, nullable=False, unique=True)
     roles = db.Column(db.Text)
@@ -118,7 +119,7 @@ class User(db.Model):
         """
         changeable = ("username", "password")
         if setting not in changeable:
-            return jsonify({"message": f"{setting} cannot be in changed"}, 400)
+            return jsonify({"message": f"{setting} cannot be in changed"}), 400
 
         user = guard.authenticate(username, password)
 
@@ -128,15 +129,15 @@ class User(db.Model):
             if setting == "username":
                 user.username = change_to
                 db.session.commit()
-                return jsonify({"message": "username changed successfully!"}, 200)
+                return jsonify({"message": "username changed successfully!"}), 200
 
             if setting == "password":
                 user.hashed_password = guard.hash_password(change_to)
                 db.session.commit()
-                return jsonify({"message": "password changed successfully!"}, 200)
+                return jsonify({"message": "password changed successfully!"}), 200
 
         except Exception:
-            return jsonify({"message": "change could not be submitted"}, 400)
+            return jsonify({"message": "change could not be submitted"}), 400
 
     @classmethod
     def remove_account(cls, username, password):
@@ -150,9 +151,9 @@ class User(db.Model):
         try:
             db.session.delete(user)
             db.session.commit()
-            return jsonify({"message": "success"}, 200)
+            return jsonify({"message": "success"}), 200
 
         except IntegrityError as e:
             import ipdb
             ipdb.set_trace()
-            return jsonify({"message": "could not delete user"}, 400)
+            return jsonify({"message": "could not delete user"}), 400

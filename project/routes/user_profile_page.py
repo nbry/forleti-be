@@ -31,7 +31,7 @@ def get_user_by_username(username):
             "status": 404,
             "message": "No User Found"
         }
-        return jsonify(message)
+        return jsonify(message), 404
 
 
 @user_profile_api_blueprint.route('/home')
@@ -69,4 +69,4 @@ def get_logged_in_user_from_header():
             "status": 404,
             "message": "No User Found"
         }
-        return jsonify(message)
+        return jsonify(message), 404
