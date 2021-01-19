@@ -116,7 +116,7 @@ class User(db.Model):
 
         # noinspection PyBroadException
         try:
-            # Again, keep this function explicit. Don't use a loop.
+            # Again, keep this function explicit. DO NOT USE A LOOP!
             if setting == "username":
                 user.username = change_to
                 db.session.commit()

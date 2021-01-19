@@ -42,7 +42,7 @@ class UserProfileSettings(db.Model):
         """
         Change requested profile setting.
         Sanitize request object by check to see if setting is allowed to be changed.
-        Keep this explicitly in a tuple for ensured safety. Changes can only
+        Keep this function EXPLICIT to ensure safety. Changes can only
         be made to bio, avatar_url, header_url, theme, and dark_mode.
         Return a message.
         """
@@ -53,9 +53,34 @@ class UserProfileSettings(db.Model):
         settings = cls.query.filter_by(user_id=user_id).one_or_none()
         # noinspection PyBroadException
         try:
-            settings[setting] = change_to
-            db.session.commit()
-            return jsonify({"message": f"{setting} changed successfully!"}, 200)
+            # Again, keep this function explicit. Make separate conditionals for each
+            # change.  Do not use a loop (for now)
+            if setting == "bio":
+                settings.bio = change_to
+                db.session.commit()
+                return jsonify({"message": f"{setting} changed successfully!"}, 200)
+
+            # IMPLEMENT THESE AS YOU INTRODUCE THE ABILITY TO CHANGE:
+
+            # elif setting == "avatar_url":
+            #     settings.avatar_url = change_to
+            #     db.session.commit()
+            #     return jsonify({"message": f"{setting} changed successfully!"}, 200)
+            #
+            # elif setting == "header_url":
+            #     settings.header_url = change_to
+            #     db.session.commit()
+            #     return jsonify({"message": f"{setting} changed successfully!"}, 200)
+            #
+            # elif setting == "theme":
+            #     settings.theme = change_to
+            #     db.session.commit()
+            #     return jsonify({"message": f"{setting} changed successfully!"}, 200)
+            #
+            # elif setting == "dark_mode":
+            #     settings.dark_mode = change_to
+            #     db.session.commit()
+            #     return jsonify({"message": f"{setting} changed successfully!"}, 200)
 
         except Exception:
             return jsonify({"message": "change could not be submitted"}, 400)
