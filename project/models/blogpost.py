@@ -13,8 +13,9 @@ class BlogPost(db.Model):
     edited = db.Column(db.Boolean, nullable=False, default=False)
     user_id = db.Column(
         db.Integer,
-        db.ForeignKey("users.id", ondelete="cascade"),
-        nullable=False)
+        db.ForeignKey("users.id", ondelete="CASCADE"),
+        nullable=False
+    )
 
     # *****************************
     # CRUD methods:

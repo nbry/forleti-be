@@ -2,9 +2,8 @@
 import flask_praetorian as fp
 from flask import request, jsonify
 from project.extensions import guard
-from project.models import User
+from project.models import User, UserProfileSettings
 from . import user_auth_api_blueprint
-from .. import UserProfileSettings
 
 
 @user_auth_api_blueprint.route('/login', methods=['POST'])
@@ -69,32 +68,13 @@ def signup():
         return jsonify(message), 400
 
 
-# USER LOG OUT ROUTE (GET)? SHOULD THIS EVEN BE IMPLEMENTED? JWT'S SHOULD THEORETICALLY
-# BE STATELESS
-
-
-# *****************************
-# TESTING ROUTES:
-# REMOVE/CHANGE AT PRODUCTION
-# *****************************
-@user_auth_api_blueprint.route("/protected")
+@user_auth_api_blueprint.route('/account/remove', methods=["DELETE"])
 @fp.auth_required
-def protected():
-    # REMOVE/CHANGE AT PRODUCTION
+def remove_account():
     """
-    A protected endpoint. The auth_required decorator will require a header
-    containing a valid JWT
-    .. example::
-       $ curl http://localhost:5000/protected -X GET \
-         -H "Authorization: Bearer <your_token>"
+    Get current user from token. Authenticate with password. Return message.
     """
-    return jsonify(
-        message="protected endpoint (allowed user {})".format(
-            fp.current_user().username,
-        )
-    )
-
-
-@user_auth_api_blueprint.route('/test')
-def hello_world():
-    return jsonify({"message": "hello world"})
+    req = request.json
+    user = fp.current_user()
+    message = User.remove_account(user.username, req.get("password"))
+    return message

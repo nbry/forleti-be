@@ -15,11 +15,9 @@ class UserProfileSettings(db.Model):
     dark_mode = db.Column(db.Boolean, default=False)
     user_id = db.Column(
         db.Integer,
-        db.ForeignKey("users.id", ondelete="cascade"),
+        db.ForeignKey("users.id", ondelete="CASCADE"),
         nullable=False,
         unique=True)
-
-    user = db.relationship("User", backref="profile_settings", lazy=True)
 
     @classmethod
     def initialize(cls, user_id):

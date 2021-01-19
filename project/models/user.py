@@ -15,8 +15,16 @@ class User(db.Model):
     roles = db.Column(db.Text)
     created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
-    blogposts = db.relationship("BlogPost", order_by="desc(BlogPost.created)",
-                                backref="user", lazy=True)
+    blogposts = db.relationship("BlogPost",
+                                order_by="desc(BlogPost.created)",
+                                cascade="all, delete",
+                                backref="user",
+                                lazy=True)
+
+    profile_settings = db.relationship("UserProfileSettings",
+                                       cascade="all, delete",
+                                       backref="user",
+                                       lazy=True)
 
     # *****************************
     # REQUIRED PROPERTIES AND METHODS BY FLASK PRAETORIAN:
@@ -129,3 +137,22 @@ class User(db.Model):
 
         except Exception:
             return jsonify({"message": "change could not be submitted"}, 400)
+
+    @classmethod
+    def remove_account(cls, username, password):
+        """
+        Authenticate user from token with password provided in request data. If
+        successful, remove the user from the database.
+        """
+        user = guard.authenticate(username, password)
+
+        # noinspection PyBroadException
+        try:
+            db.session.delete(user)
+            db.session.commit()
+            return jsonify({"message": "success"}, 200)
+
+        except IntegrityError as e:
+            import ipdb
+            ipdb.set_trace()
+            return jsonify({"message": "could not delete user"}, 400)
