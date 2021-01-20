@@ -84,3 +84,13 @@ def remove_account():
     user = fp.current_user()
     message = User.remove_account(user.username, req.get("password"))
     return message
+
+
+# There's probably a better way to do this, but...
+@user_auth_api_blueprint.route('/poke')
+def poke_server():
+    """
+    Awaken back end when someone visits the site.
+    Some deployed apps can "go to sleep" if there is no traffic.
+    """
+    return jsonify("Poke you back!")
