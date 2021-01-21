@@ -124,6 +124,19 @@ class User(db.Model):
             return None
 
     @classmethod
+    def check_for_duplicate_account(cls, username: str, email: str):
+        """
+        To be used when a user is trying to sign up. Make sure no username exists
+        with requested username or email.
+        """
+        check_username = cls.lookup(username)
+        check_email = cls.lookup_by_email(email)
+        if check_username or check_email:
+            return True
+        else:
+            return False
+
+    @classmethod
     def change_account_setting(cls, setting: str, change_to: str, username: str, password: str):
         """
          Authenticate user. If successful, change requested account setting.

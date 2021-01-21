@@ -54,6 +54,14 @@ def signup():
                         "password_constraints": "Password must be 8 to 50 characters in length"}
                        ), 400
 
+    # Check to see if there is an existing user
+    if User.check_for_duplicate_account(username, email):
+        message = {
+            "message": "Account already exists with that email/username",
+            "status": 400
+        }
+        return jsonify(message), 400
+
     # Sign Up for user using information from the request
     new_user = User.signup(username, password, email)
 
@@ -68,9 +76,8 @@ def signup():
         }
         return jsonify(message)
 
-    # Duplicate account handling, if new_user is None...
     else:
-        message = {"message": "User with that username/email already exists!"}
+        message = {"message": "Something went wrong"}
         return jsonify(message), 400
 
 
