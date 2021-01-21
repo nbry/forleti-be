@@ -25,6 +25,9 @@ def get_user_by_username(username):
             "username": user.username,
             "display_name": user.display_name,
             "bio": user.profile_settings[0].bio,
+            "theme": user.profile_settings[0].theme,
+            "avatar_url": user.profile_settings[0].avatar_url,
+            "header_url": user.profile_settings[0].header_url
         }
         return jsonify({"user": user})
     else:
