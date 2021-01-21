@@ -129,12 +129,9 @@ class User(db.Model):
         To be used when a user is trying to sign up. Make sure no username exists
         with requested username or email.
         """
-        check_username = cls.lookup(username)
-        check_email = cls.lookup_by_email(email)
-        if check_username or check_email:
-            return True
-        else:
-            return False
+        check_username = cls.lookup(username) if username else False
+        check_email = cls.lookup_by_email(email) if email else False
+        return check_username or check_email
 
     @classmethod
     def change_account_setting(cls, setting: str, change_to: str, username: str, password: str):
@@ -153,19 +150,31 @@ class User(db.Model):
 
         # noinspection PyBroadException
         try:
+            # If requested change is "password", hash the password and change user.hashed_password
             if setting == "password":
                 hashed_password = guard.hash_password(change_to)
                 setattr(user, "hashed_password", hashed_password)
-                db.session.commit()
-                return jsonify({"message": f"{setting} changed successfully!"}), 200
+
+            # If requested change is username, check for duplicate
+            if setting == "username":
+                if User.check_for_duplicate_account(change_to, ""):
+                    return jsonify({"message": "Username already taken.",
+                                    "status": 400
+                                    }), 400
+                else:
+                    setattr(user, setting, change_to)
 
             else:
                 setattr(user, setting, change_to)
-                db.session.commit()
-                return jsonify({"message": f"{setting} changed successfully!"}), 200
+
+            db.session.commit()
+            return jsonify({"message": f"{setting} changed successfully!"}), 200
 
         except Exception:
-            return jsonify({"message": "change could not be submitted"}), 400
+            return jsonify({
+                "message": "change could not be submitted",
+                "status": 400
+            }), 400
 
     @classmethod
     def remove_account(cls, username, password):
