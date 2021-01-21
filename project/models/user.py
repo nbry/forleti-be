@@ -153,9 +153,16 @@ class User(db.Model):
 
         # noinspection PyBroadException
         try:
-            setattr(user, setting, change_to)
-            db.session.commit()
-            return jsonify({"message": f"{setting} changed successfully!"}), 200
+            if setting == "password":
+                hashed_password = guard.hash_password(change_to)
+                setattr(user, "hashed_password", hashed_password)
+                db.session.commit()
+                return jsonify({"message": f"{setting} changed successfully!"}), 200
+
+            else:
+                setattr(user, setting, change_to)
+                db.session.commit()
+                return jsonify({"message": f"{setting} changed successfully!"}), 200
 
         except Exception:
             return jsonify({"message": "change could not be submitted"}), 400

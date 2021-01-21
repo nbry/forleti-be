@@ -20,7 +20,9 @@ def change_user_setting():
 
     if req.get("category") == "account":
         user = fp.current_user()
-        message = User.change_account_setting(req.get("setting"), req.get("changeTo"), user.username,
+        message = User.change_account_setting(req.get("setting"),
+                                              req.get("changeTo"),
+                                              user.username,
                                               req.get("password"))
         return message
 
