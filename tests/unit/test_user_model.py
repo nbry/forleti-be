@@ -1,9 +1,16 @@
 """ TESTS FOR USER MODELS.
 
-1. Testing the 2 users in the fixture
+1. Testing the 2 users in the fixture NOT implemented with signup method
 2. Testing for adding a new user
 3. Testing flask praetorian methods on User model
 4. Testing other methods (e.g. signup) from User model
+
+NOTE: There are three users in the database.
+1. JoneDoe (manually implemented with SQLAlchemy)
+2. JohnApple (also manually implemented with SQLAlchemy)
+3. RegularSteve (added using User.signup(). RegularSteve will return FIRST in the list, with an ID of 1.
+    Subsequently, JaneDoe will be second in the list, with an ID of 2
+    and JohnApple will be third in the list with an ID of 3
 
 """
 from project.extensions import guard
@@ -33,8 +40,8 @@ def test_users_in_db_fixture(client, db):
     users = db.session.query(User).all()
 
     # First user should be JaneDoe
-    assert users[0].username == "JaneDoe"
-    assert users[0].email == "JaneDoe@emailtest.com"
+    assert users[1].username == "JaneDoe"
+    assert users[1].email == "JaneDoe@emailtest.com"
 
     # Since "id" is the primary key on the User model,
     # as the first user, JaneDoe should have an ID of 1.
@@ -43,9 +50,9 @@ def test_users_in_db_fixture(client, db):
     assert users[0].identity == 1
 
     # Now do the same for the second user, JohnApple
-    assert users[1].username == "JohnApple"
-    assert users[1].email == "JohnApple@emailtest.com"
-    assert users[1].identity == 2
+    assert users[2].username == "JohnApple"
+    assert users[2].email == "JohnApple@emailtest.com"
+    assert users[2].identity == 3
 
 
 def test_user_model_praetorian_methods(db):
@@ -58,12 +65,12 @@ def test_user_model_praetorian_methods(db):
     users = db.session.query(User).all()
 
     # Assuming this works if test_users_in_db_fixture() works
-    jane_doe = users[0]
+    jane_doe = users[1]
 
     # User model methods should return user properly
     assert jane_doe == User.lookup("JaneDoe")
     assert jane_doe == User.lookup_by_email("JaneDoe@emailtest.com")
-    assert jane_doe == User.identify(1)
+    assert jane_doe == User.identify(2)
 
 
 def test_new_user_signup(client, db):
