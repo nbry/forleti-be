@@ -1,5 +1,6 @@
 import pytest
 from project.models import User
+from project.models import UserProfileSettings
 from project import create_app
 from project.extensions import db as _db, guard
 
@@ -19,7 +20,8 @@ def client(app):
 
 @pytest.fixture(scope="module")
 def db(app):
-    _db.create_all()
+    with app.app_context():
+        _db.create_all()
 
     # Add two users to testing database
     # Note that password must be manually hashed
@@ -34,6 +36,13 @@ def db(app):
                       email="JohnApple@emailtest.com",
                       hashed_password=raw_pass2,
                       created="1/1/2021 00:00:00 AM")
+
+    # Add one more user with the User Signup method. Use this to test a user
+    # as if they signed up with Forleti's interface. We must:
+    # 1. Initializes the user
+    # 2. Initialize their profile settings
+    test_user_3 = User.signup("RegularSteve", "password3", "RegularSteve@emailtest.com")
+    UserProfileSettings.initialize(test_user_3.id)
 
     # Add the two users and commit changes
     _db.session.add(test_user1)
