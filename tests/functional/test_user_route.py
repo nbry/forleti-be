@@ -8,6 +8,10 @@ context to the fixtures.
 # DEFAULT VARIABLES
 EXISTING_USER_USERNAME = "JaneDoe"
 EXISTING_USER_PASS = "password1"
+
+FORLETI_USER_USERNAME = "RegularSteve"
+FORLETI_USER_PASS = "password3"
+
 NEW_USERNAME = "NewUser"
 NEW_EMAIL = "NewUser@emailtest.com"
 NEW_PASSWORD = "password2"
@@ -37,18 +41,21 @@ def test_protected_route_with_token(client, db):
     THEN ensure user can access the page
     """
 
-    # These following lines should work if first test runs properly:
-    json_body = {"username": EXISTING_USER_USERNAME, "password": EXISTING_USER_PASS}
+    # These following lines should work if first test runs properly.
+    # HOWEVER, we are using a different user. We're using a user that has been signed up using
+    # the User model's signup method.  Effectively, we're testing a user as if they signed up
+    # on the production application.
+    json_body = {"username": FORLETI_USER_USERNAME, "password": FORLETI_USER_PASS}
     res = client.post('/login', json=json_body)
     token = res.json["token"]
 
     # Should not work without token in header:
-    res_protected = client.get('/settings/account')
+    res_protected = client.get('/home')
     assert res_protected.status_code == 401
 
     # Should work with token in the header
     headers = {"Authorization": f"Bearer {token}"}
-    res_protected_with_headers = client.get('/settings/account', headers=headers)
+    res_protected_with_headers = client.get('/home', headers=headers)
     assert res_protected_with_headers.status_code == 200
 
 
@@ -96,7 +103,7 @@ def test_signup_route_with_duplicate_user(client, db):
     res_message = res.json["message"]
 
     assert res.status_code == 400
-    assert res_message == "User with that username/email already exists!"
+    assert res_message == "Account already exists with that email/username"
 
 # ****************************
 # TO BE IMPLEMENTED AT PRODUCTION (ERRORS NOT BE HANDLED AT THE PRESENT TIME)

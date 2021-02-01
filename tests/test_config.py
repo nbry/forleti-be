@@ -18,7 +18,7 @@ def test_testing_fixture(app, client, db):
     """
 
     # Ensure test client is running
-    response = client.get('/test')
+    response = client.get('/poke')
     assert response.status_code == 200
 
     # Ensure correct database is being used
@@ -31,9 +31,13 @@ def test_testing_fixture(app, client, db):
     # Ensure test database has two users (JaneDoe and JohnApple), as defined in:
     # "tests/conftest.py" (under "def db(client)")
     users = db.session.query(User).all()
-    assert len(users) == 2
-    assert users[0].username == "JaneDoe"
-    assert users[1].username == "JohnApple"
+    assert len(users) == 3
+    assert users[1].username == "JaneDoe"
+    assert users[2].username == "JohnApple"
+
+    # Ensure that user created with User.signup() is in database
+    # FURTHER NOTE: Upon testing, this user comes back before the others.
+    assert users[0].username == "RegularSteve"
 
 
 def test_testing_config():
