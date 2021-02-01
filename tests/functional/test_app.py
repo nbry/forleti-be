@@ -1,7 +1,7 @@
 from project import create_app
 
 
-def test_home_page():
+def test_poke():
     """
     GIVEN a Flask application configured for testing
     WHEN the '/' page is requested (GET)
@@ -11,5 +11,5 @@ def test_home_page():
 
     # Create a test client using the Flask application configured for testing
     with flask_app.test_client() as test_client:
-        response = test_client.get('/test')
+        response = test_client.get('/poke')
         assert response.status_code == 200
