@@ -137,7 +137,7 @@ Generally Recommended:
 
 
 ## Running Tests:
-Ensure testing database is created (instructions found above under STEP 5).
+Ensure testing database is created (instructions found above under STEP 8).
 
 To run all tests, make sure you're in the root directory and run the following command:
 
