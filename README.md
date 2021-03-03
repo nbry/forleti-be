@@ -1,7 +1,7 @@
 # Forleti - Backend
 The Forleti project is an implementation of a settings menu for a rapidly growing social media application. This project was built with focuses on ease of development and collaboration.  Forleti utilizes a modular programming style, clear annotations, and expressive tests.
 
-This repository is the REST API backend for the blogging app, written with Flask and Postgres.
+This repository is the REST API backend for the blogging app, written with Flask and PostgreSQL. It features a modular design, with an Application Factory Pattern, Blueprints, and testing fixtures. The goal is to eventually utilize microservices architecture. 
 
 Check out the Frontend Repository [here!](https://github.com/nbry/forleti-fe "here!")
 
