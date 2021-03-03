@@ -3,6 +3,8 @@ The Forleti project is an implementation of a settings menu for a rapidly growin
 
 This repository is the REST API backend for the blogging app, written with Flask and Postgres.
 
+Check out the Frontend Repository [here!](https://github.com/nbry/forleti-fe "here!")
+
 ## Developer Features:
 
 - **Application Factory Pattern**
@@ -127,8 +129,6 @@ Generally Recommended:
 
 **Hope this helps!**
 
-
-[========]
 
 
 ## Running Tests:
