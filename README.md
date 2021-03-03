@@ -8,23 +8,23 @@ Check out the Frontend Repository [here!](https://github.com/nbry/forleti-fe "he
 ## Developer Features:
 
 - **Application Factory Pattern**
-- 
+
 	A function `create_app()` initializes a Flask application, links blueprints, and adds extensions. Because of the factory pattern, multiple apps can be run in parallel. This will be crucial for setting up a microservices architecture.
 
 - **Testing Fixtures**
-- 
+
 	Using the application factory pattern, I set up a testing fixture for testing routes and functions within the Forleti backend. Tests are conducted with Pytest.
 
 - **Configurable Environment Settings**
-- 
+
 	Developers can write different configuration settings for different environments in separated .conf files. I wrote separate configurations for development, testing, and production environments.
 
 - **Modular design (with packages and Flask Blueprints)**
-- 
+
 	Effective implementation of DRY coding and  separation of concerns. Routes are separated into their own flask blueprints and packages for importing and and linking to a Flask application. SQLAlchemy models are separated into packages.
 
 - **Additional Tools Used**
-- 
+
 	 Pytest, SQLAlchemy, Flask Praetorian
 
 ## Local Installation - Requirements
