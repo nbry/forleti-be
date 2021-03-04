@@ -1,7 +1,7 @@
 # Forleti - Backend
 The Forleti project is an implementation of a settings menu for a rapidly growing social media application. This project was built with focuses on ease of development and collaboration.  Forleti utilizes a modular programming style, clear annotations, and expressive tests.
 
-This repository is the REST API backend for the blogging app, written with Flask and PostgreSQL. It features a modular design, with an Application Factory Pattern, Blueprints, and testing fixtures. The goal is to eventually utilize microservices architecture. 
+This repository is the REST API backend for the blogging app, written with Flask and PostgreSQL. It features a modular design, with an Application Factory Pattern, Blueprints, and testing fixtures. The goal is to eventually utilize a microservices architecture. 
 
 Check out the Frontend Repository [here!](https://github.com/nbry/forleti-fe "here!")
 
@@ -17,7 +17,7 @@ Check out the Frontend Repository [here!](https://github.com/nbry/forleti-fe "he
 
 - **Configurable Environment Settings**
 
-	Developers can write different configuration settings for different environments in separated .conf files. I wrote separate configurations for development, testing, and production environments.
+	Developers can write different configuration settings for different environments in separated .cfg files. I wrote separate configurations for development, testing, and production environments.
 
 - **Modular design (with packages and Flask Blueprints)**
 
@@ -60,7 +60,7 @@ Generally Recommended:
 	A different command may be required for windows users.
 	Could possibly be:
 	
-	`source venv/Scripts activate`
+	`source venv/Scripts/activate`
 
 5. **Ensure your virtual environment is activated.**
 	If you followed the previous instructions, you might see `(venv)` in your CLI.
